@@ -1,0 +1,42 @@
+<h1> Ajouter un étudiant </h1>
+
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+<div>
+    {{ form_label(form.email,"Votre Email")}}
+    {{ form_errors(form.email) }}
+    {{ form_widget(form.email)}}
+</div>
+
+<div>
+
+    {{ form_label(form.username, "Nom Utilisateur ")}}
+    {{ form_errors(form.username) }}
+    {{ form_widget(form.username)}}
+</div>
+
+<div>
+    {{ form_label(form.mdp,"Mot de Passe ")}}
+    {{ form_errors(form.mdp) }}
+    {{ form_widget(form.mdp)}}
+
+</div>
+
+<div>
+    {{ form_label(form.nomPrenom,"Nom et Prenom ")}}
+    {{ form_errors(form.nomPrenom) }}
+    {{ form_widget(form.nomPrenom)}}
+
+</div>
+
+<div>
+    {{ form_label(form.age,"Date de Naissance ")}}
+    {{ form_errors(form.age) }}
+    {{ form_widget(form.age)}}
+</div>
+<div>
+    {{ form_label(form.type)}}
+    {{ form_errors(form.type) }}
+    {{ form_widget(form.type)}}
+</div>
+{{ form_row(form.save, { 'label': 'Submit me' }) }}
+ {{ form_end(form) }}

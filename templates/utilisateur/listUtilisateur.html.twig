@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UtilisateurController!{% endblock %}
+
+{% block body %}
+
+<table border ="1" id="t" class="table table-hover table-dark">
+    <thead class="thead-dark">
+    <tr>
+        <td >Id</td>
+        <td >Email</td>
+        <td >Nom Utilisateur</td>
+        <td >Mot de Passe</td>
+        <td >Nom et Prenom</td>
+        <td >Date de Naissance</td>
+        <td >Type</td>
+    </tr>
+    </thead>
+    <tbody id="all">
+    {% for utilisateur in utilisateurs %}
+        <tr>
+
+            <td>
+
+                {{ utilisateur.IdUser }}
+
+            </td>
+            <td>
+
+                {{ utilisateur.email }}
+
+            </td>
+            <td>
+
+                {{ utilisateur.username }}
+
+            </td>
+            <td>
+
+                {{ utilisateur.mdp }}
+
+            </td>
+            <td>
+
+                {{ utilisateur.nomPrenom }}
+
+            </td>
+            <td>
+
+                {{ utilisateur.age | date('d-m-Y') }}
+
+            </td>
+            <td>
+
+                {{ utilisateur.type }}
+
+            </td>
+
+            {
+            <td>
+            <a href="{{ path('updateUser', {'id': utilisateur.idUser}) }}"> Modifier</a>
+            <a href="{{ path('deleteUser', {'id': utilisateur.idUser}) }}"> Supprimer</a>
+               </td>
+            }
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

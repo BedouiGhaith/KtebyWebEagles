@@ -1,0 +1,42 @@
+<h1> Ajouter un étudiant </h1>
+
+{{ form_start(formAddUser,{'attr': {'novalidate': 'novalidate'}}) }}
+<div>
+      {{ form_label(formAddUser.email,"Votre Email")}}
+    {{ form_errors(formAddUser.email) }}
+     {{ form_widget(formAddUser.email)}}
+</div>
+
+<div>
+
+     {{ form_label(formAddUser.username, "Nom Utilisateur ")}}
+     {{ form_errors(formAddUser.username) }}
+     {{ form_widget(formAddUser.username)}}
+</div>
+
+<div>
+      {{ form_label(formAddUser.mdp,"Mot de Passe ")}}
+    {{ form_errors(formAddUser.mdp) }}
+     {{ form_widget(formAddUser.mdp)}}
+
+    </div>
+
+<div>
+   {{ form_label(formAddUser.nomPrenom,"Nom et Prenom ")}}
+     {{ form_errors(formAddUser.nomPrenom) }}
+    {{ form_widget(formAddUser.nomPrenom)}}
+
+    </div>
+
+<div>
+      {{ form_label(formAddUser.age,"Date de Naissance ")}}
+     {{ form_errors(formAddUser.age) }}
+    {{ form_widget(formAddUser.age)}}
+    </div>
+<div>
+    {{ form_label(formAddUser.type)}}
+    {{ form_errors(formAddUser.type) }}
+    {{ form_widget(formAddUser.type)}}
+    </div>
+{{ form_row(formAddUser.save, { 'label': 'Submit me' }) }}
+ {{ form_end(formAddUser) }}

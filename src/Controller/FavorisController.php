@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
+use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -51,5 +54,32 @@ class FavorisController extends AbstractController
             'formA' => $form->createView()
 
         ]);
+    }
+    /**
+         * @Route("/deleteFavoris/{id}", name="deleteFavoris")
+     */
+    public function deleteFavoris($id)
+    {
+        $favoris = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($favoris);
+        $em->flush();
+        return $this->redirectToRoute("favorisList");
+    }
+    /**
+     * @Route("/updateFavoris/{id}", name="updateFavoris")
+     */
+    public function updateFavoris(Request $request, $id)
+    {
+        $favoris = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id);
+        $form = $this->createForm(UtilisateurType::class, $favoris);
+        $form->add("Modifier", SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('favorisList');
+        }
+        return $this->render("favoris/updateFavoris.html.twig", array('form' => $form->createView()));
     }
 }

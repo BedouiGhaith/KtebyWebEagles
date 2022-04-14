@@ -60,7 +60,7 @@ class UtilisateurController extends AbstractController
 
     }
     /**
-     * @Route("/delete/{id}", name="deleteUser")
+     * @Route("/deleteUser/{id}", name="deleteUser")
      */
     public function deleteUser($id)
     {
@@ -71,7 +71,7 @@ class UtilisateurController extends AbstractController
         return $this->redirectToRoute("usersList");
     }
     /**
-     * @Route("/update/{id}", name="updateUser")
+     * @Route("/updateUser/{id}", name="updateUser")
      */
     public function updateUser(Request $request, $id)
     {

@@ -73,4 +73,25 @@ class ClubRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    public function calcul(){
+
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("SELECT COUNT(e.id_event) as NbrEvents FROM App\Entity\Evenement e JOIN e.club c WHERE c.id=:id ");
+        return $query->getSingleScalarResult();
+    }
+
+
+    public function counts()
+    {
+        $query= $this->getEntityManager()->createQuery('select count(e) from App\Entity\Evenement e group by c.id   ');
+        return $query->getResult();
+    }
+
 }

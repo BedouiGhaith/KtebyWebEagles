@@ -116,13 +116,6 @@
 
                     <li><a  href="{{ path('app_club_index') }}">Clubs</a></li>
                     <li><a  href="{{ path('app_user_event') }}">Evenements</a></li>
-                    <li><a href="blog-single.html">blog</a></li>
-                    <li class="dropdown">
-                        <a href="#">
-                            PAGES
-                            <span class="caret"></span>
-                        </a>
-                    </li> <!-- End of /.dropdown -->
 
 
                 </ul> <!-- End of /.nav-main -->
@@ -135,11 +128,15 @@
 {% block title %}Hello UserEventController{% endblock %}
 
 {% block body %}
+    {% set ok=0 %}
 <section id="shop">
     <h2>Liste Events</h2>
     <div class="container">
         <div class="row">
+            {% set totale=0 %}
             {% for evenement in evenements %}
+                {% set nbp=0 %}
+                {% set particip=0 %}
             <div class="col-sm-6 col-md-4">
 
                 <div class="thumbnail">
@@ -151,11 +148,50 @@
                                 </a>
                     <h4>{{ evenement.event_name }}</h4>
                 </a>
-                <p class="price">{{ evenement.event_date ? evenement.event_date|date('Y-m-d') : '' }}</p>
+
+                <p class="price">{{ evenement.event_date ? evenement.event_date|date('Y-m-d à H:i:s')}}</p>
+
+                        {% for part in parts %}
+
+
+                            {% if( (part.ide==evenement.id_event) )%}
+                                {% set nbp=nbp+1 %}
+                            {% endif %}
+
+                            {% if( (part.idu==1)and(part.ide==evenement.id_event) )%}
+
+                                {% set particip=1 %}
+                            {% endif %}
+                        {% else %}
+                            {% set particip=0 %}
+                        {% endfor %}
+                    <p> Nombres participants :   {{ nbp }}/{{evenement.nbrparticiMax}}</p>
                     <p>
-                        <a href="{{ path('app_usrevent_show', {'id_event': evenement.id_event})}}" class="btn btn-default btn-transparent" role="button">
-                            <button href="{{ path('app_usrevent_show', {'id_event': evenement.id_event}) }}">Participer </button>
+                        {% if (particip==1) %}
+
+
+                        <a style="margin-left: 130px;" href="{{ path('app_usrevent_show', {'id_event': evenement.id_event})}}" class="btn btn-default btn-transparent" role="button">
+                            <button href="{{ path('app_usrevent_show', {'id_event': evenement.id_event}) }}">Détails </button>
                         </a>
+
+                        {# <a style="margin-left: 130px;" href="{{ path('evenement_edit', {'id_event': evenement.id_event})}}" class="btn btn-default btn-transparent" role="button">
+                            <button href="{{ path('evenement_edit', {'id_event': evenement.id_event}) }}">Modifier </button>
+                        </a>
+                         #}
+
+</p>
+
+
+                        {% elseif (nbp>=evenement.nbrparticiMax)  %}
+                    <p>Les places sont complets pour ce événement </p>
+                    {% else  %}
+                         <a style="margin-left: 130px;" href="{{ path('rejo', {'ide': evenement.id_event, 'idu': 1})}}" class="btn btn-default btn-transparent" role="button">
+                            <button href="{{ path('rejo', {'ide': evenement.id_event, 'idu': 1}) }}">Participer </button>
+                        </a>
+
+
+                    {% endif %}
+
                     </p>
 
                             </div>	<!-- End of /.products -->

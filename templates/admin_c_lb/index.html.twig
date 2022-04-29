@@ -12,7 +12,7 @@
             <th bgcolor="#a0bbe6">Nom club</th>
             <th bgcolor="#a0bbe6">Date creation</th>
             <th bgcolor="#a0bbe6">Club Owner</th>
-            <th bgcolor="#a0bbe6">Nombre des membres</th>
+            <th bgcolor="#a0bbe6">Image Club</th>
             <th bgcolor="#a0bbe6">Actions</th>
         </tr>
         </thead>
@@ -23,13 +23,15 @@
                 <td>{{ clb.nom_club }}</td>
                 <td>{{ clb.dateCreation  ? clb.dateCreation |date('Y-m-d') : '' }}</td>
                 <td>{{ clb.club_owner}}</td>
-                <td>{{ clb.nbr_members}}</td>
+
                 <td><img src="{{ asset('UserPart/imgs/' ~ clb.imageclb) }}"
                          alt="" style="width:40px; height: 40px "></td>
 
+
                 <td>
                     <a href="{{ path('app_adminclb_show', {'id': clb.id}) }}">Détails</a>  &nbsp;
-                   &nbsp;
+                    <a href="{{ path('app_clbadmin_delete', {'id': clb.id}) }}">Supprimer</a>  &nbsp;
+
 
 
 
@@ -41,8 +43,9 @@
                 <td colspan="5">Aucun club existant</td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
 
-
+    {{ knp_pagination_render(clubs) }}
 {% endblock %}

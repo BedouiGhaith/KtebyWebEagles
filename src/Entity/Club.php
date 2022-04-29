@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ClubRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ClubRepository::class)
@@ -17,34 +20,59 @@ class Club
      */
     private $id;
 
+
     /**
+     * @Assert\NotBlank(message="nom doit être non vide")
+     * @Assert\Length(
+     *     min = 5,
+     *     minMessage="Entrer un nom au mininmum de 5 caractéres"
+     *
+     * )
      * @ORM\Column(type="string", length=255)
      */
     public $nom_club;
 
+
+    /*
+     * @Assert\NotBlank (message="il faut remplir le champs")
+     * @ORM\Column(type="datetime")
+     */
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime_immutable")
      */
     public $date_creation;
 
     /**
+     * @Assert\NotBlank(message="owner doit être non vide")
      * @ORM\Column(type="string", length=255)
      */
     public $club_owner;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public $nbr_members;
+
 
     /**
      * @ORM\Column(type="string", length=255)
-     * Assert\NotBlank(message="Please upload an image")
-     * Assert\File(mimeTypes={"image/png", "image/jpeg"})
+     * @Assert\NotBlank(message="il faut choisir une image")
+     * @Assert\File(mimeTypes={"image/png", "image/jpeg"})
      */
     private $imageclb;
 
 
+    /**
+     * @Assert\NotBlank(message="Il faut choisir un type")
+     * @ORM\Column(name="access" ,type="boolean" ,options={"default":true})
+     */
+    private $access;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="club" , orphanRemoval=true)
+     */
+    private $evenements;
+
+    public function __construct()
+    {
+        $this->evenements = new ArrayCollection();
+    }
 
 
 
@@ -90,17 +118,26 @@ class Club
         return $this;
     }
 
-    public function getnbr_members(): ?int
+
+
+    /**
+     * @return mixed
+     */
+    public function getAccess()
     {
-        return $this->nbr_members;
+        return $this->access;
     }
 
-    public function setNbrMembers(int $nbr_members): self
+    /**
+     * @param mixed $access
+     */
+    public function setAccess($access): void
     {
-        $this->nbr_members = $nbr_members;
-
-        return $this;
+        $this->access = $access;
     }
+
+
+
 
 
     public function getImageclb()
@@ -113,6 +150,42 @@ class Club
     {
         $this->imageclb = $imageclb;
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getClub() === $this) {
+                $evenement->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return(string)$this->getNom_club();
     }
 
 

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Club;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
+use App\Entity\Evenement;
+use App\Repository\EvenementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +19,13 @@ class ClubController extends AbstractController
     /**
      * @Route("/clublist", name="app_club_index", methods={"GET"})
      */
-    public function index(ClubRepository $clubRepository): Response
+    public function index(ClubRepository $clubRepository,EvenementRepository $evenementRepository): Response
     {
         return $this->render('club/index.html.twig', [
             'clubs' => $clubRepository->findAll(),
+            'events' => $evenementRepository->findAll(),
         ]);
+
     }
 
     /**
@@ -30,6 +34,7 @@ class ClubController extends AbstractController
     public function new(Request $request, ClubRepository $clubRepository): Response
     {
         $club = new Club();
+        $club->setDateCreation(new \DateTimeImmutable());
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
 
@@ -74,11 +79,12 @@ class ClubController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $club->getImageclb();
-
+           //IMAGE
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
             /*$file->move($this->getParameter('images_directory'), $fileName);*/
             $file->move($this->getParameter('kernel.project_dir') .'/public/UserPart/imgs',$fileName);
             $club->setImageclb($fileName);
+
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -102,6 +108,16 @@ class ClubController extends AbstractController
     }
 
 
+    /**
+     * @Route("/showEventsNBR/{id}", name="showEventsCount")
+     */
+    public function CalculEv($nom_club)
+    {   $club = $this->getDoctrine()->getRepository(Club::class)->findBy($nom_club);
+        $nbrEvents= $this->getDoctrine()->getRepository(Evenement::class)->calculEvents($club->getId());
+        return $this->render('club/show.html.twig', [
+            "club" => $club,
+            "NbrEvents"=>$nbrEvents]);
+    }
 
 
 

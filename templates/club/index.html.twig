@@ -8,20 +8,27 @@
         function sortdiv() {
             var container = document.getElementById("list");
             var elements = container.childNodes;
+            // stockage temporaire des éléments qui seront triés
             var sortMe = [];
+            // itérer sur tous les éléments de <div id="list">
             for (var i=0; i<elements.length; i++) {
+                // ignorer les nœuds sans ID
                 if (!elements[i].id) {
                     continue;
                 }
                 var sortPart = elements[i].id.split("-");
+                // n'ajoute l'élément pour le tri que s'il contient un tiret
                 if (sortPart.length > 1) {
                     sortMe.push([ 1 * sortPart[1] , elements[i] ]);
                 }
-            }
+            } // trie le tableau sortMe, les éléments avec l'ID le plus haut seront d'abord
             sortMe.sort(function(x, y) {
                 return  y[0] - x[0];
             });
+            // enfin ajouter à nouveau les éléments triés, l'ancien élément sera déplacé vers
+            // la nouvelle position
             for (var i=0; i<sortMe.length; i++) {
+                // rappelez-vous que le deuxième élément du tableau contient l'élément lui-même
                 container.appendChild(sortMe[i][1]);
             }
 

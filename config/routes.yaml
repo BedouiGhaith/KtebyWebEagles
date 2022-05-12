@@ -1,3 +1,0 @@
-stat_evaluations_index:
-    path: /avis/chart/stat
-    controller: App\Controller\AvisController::stat

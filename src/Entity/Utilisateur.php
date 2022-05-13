@@ -50,9 +50,9 @@ class Utilisateur
     private $nomPrenom;
 
     /**
-     * @var \DateTime
+     * @var int
      *
-     * @ORM\Column(name="age", type="date", nullable=false)
+     * @ORM\Column(name="age", type="integer", nullable=false)
      */
     private $age;
 
@@ -116,12 +116,12 @@ class Utilisateur
         return $this;
     }
 
-    public function getAge(): ?\DateTimeInterface
+    public function getAge(): ?int
     {
         return $this->age;
     }
 
-    public function setAge(\DateTimeInterface $age): self
+    public function setAge(int $age): self
     {
         $this->age = $age;
 

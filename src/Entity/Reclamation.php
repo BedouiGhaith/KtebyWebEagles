@@ -38,16 +38,16 @@ class Reclamation
     /**
      * @var int|null
      *
-     * @ORM\Column(name="status", type="integer", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private $status = NULL;
+    private $status;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="response", type="string", length=25, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="response", type="string", length=25, nullable=true)
      */
-    private $response = 'NULL';
+    private $response;
 
     /**
      * @var \Utilisateur

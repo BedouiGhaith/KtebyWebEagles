@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Historique
  *
- * @ORM\Table(name="historique", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_livre", columns={"id_livre"})})
+ * @ORM\Table(name="historique", indexes={@ORM\Index(name="id_livre", columns={"id_livre"}), @ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
  */
 class Historique
@@ -24,19 +24,9 @@ class Historique
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_histo", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="date_histo", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $dateHisto = 'current_timestamp()';
-
-    /**
-     * @var \Livre
-     *
-     * @ORM\ManyToOne(targetEntity="Livre")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
-     * })
-     */
-    private $idLivre;
+    private $dateHisto = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Utilisateur
@@ -47,6 +37,16 @@ class Historique
      * })
      */
     private $idUser;
+
+    /**
+     * @var \Livre
+     *
+     * @ORM\ManyToOne(targetEntity="Livre")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
+     * })
+     */
+    private $idLivre;
 
     public function getIdHisto(): ?int
     {
@@ -65,18 +65,6 @@ class Historique
         return $this;
     }
 
-    public function getIdLivre(): ?Livre
-    {
-        return $this->idLivre;
-    }
-
-    public function setIdLivre(?Livre $idLivre): self
-    {
-        $this->idLivre = $idLivre;
-
-        return $this;
-    }
-
     public function getIdUser(): ?Utilisateur
     {
         return $this->idUser;
@@ -85,6 +73,18 @@ class Historique
     public function setIdUser(?Utilisateur $idUser): self
     {
         $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?Livre
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?Livre $idLivre): self
+    {
+        $this->idLivre = $idLivre;
 
         return $this;
     }

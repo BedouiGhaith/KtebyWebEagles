@@ -45,9 +45,9 @@ class Evenement
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="evnt_date", type="date", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="evnt_date", type="date", nullable=true)
      */
-    private $evntDate = 'NULL';
+    private $evntDate;
 
     /**
      * @var \Club

@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Categorie
  *
  * @ORM\Table(name="categorie")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CategorieRepository")
  */
 class Categorie
 {
@@ -22,11 +22,15 @@ class Categorie
     private $idCategorie;
 
     /**
-     * @var string
+     * @Assert\NotBlank(message=" nom doit etre non vide")
+     * @Assert\Length(
+     *      min = 4,
+     *      minMessage=" Entrer un titre au mini de 4 caracteres"
      *
-     * @ORM\Column(name="nom_categorie", type="string", length=30, nullable=false)
+     *     )
+     * @ORM\Column(type="string", length=255)
      */
-    private $nomCategorie;
+    public $nomCategorie;
 
     public function getIdCategorie(): ?int
     {
@@ -44,6 +48,8 @@ class Categorie
 
         return $this;
     }
-
+    public function __toString() {
+        return $this->nomCategorie;
+    }
 
 }

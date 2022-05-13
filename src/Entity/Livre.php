@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Livre
  *
  * @ORM\Table(name="livre", indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Livre
 {
@@ -50,6 +50,13 @@ class Livre
     private $image;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="text_livre", type="text", length=65535, nullable=false)
+     */
+    private $textLivre;
+
+    /**
      * @var \Categorie
      *
      * @ORM\ManyToOne(targetEntity="Categorie")
@@ -58,6 +65,18 @@ class Livre
      * })
      */
     private $idCategorie;
+
+  
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime() ;
+    }
 
     public function getIdLivre(): ?int
     {
@@ -112,6 +131,18 @@ class Livre
         return $this;
     }
 
+    public function getTextLivre(): ?string
+    {
+        return $this->textLivre;
+    }
+
+    public function setTextLivre(string $textLivre): self
+    {
+        $this->textLivre = $textLivre;
+
+        return $this;
+    }
+
     public function getIdCategorie(): ?Categorie
     {
         return $this->idCategorie;
@@ -124,5 +155,19 @@ class Livre
         return $this;
     }
 
+   
 
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    
 }
